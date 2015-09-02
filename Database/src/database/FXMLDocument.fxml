@@ -1,14 +1,207 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database.FXMLDocumentController">
     <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+      <HBox alignment="CENTER" prefHeight="456.0" prefWidth="557.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" maxWidth="300.0" prefHeight="580.0" prefWidth="255.0" spacing="10.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="addMachineButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleAddMachineButtonAction" prefHeight="25.0" prefWidth="94.0" text="Přidat stroj" VBox.vgrow="ALWAYS" />
+                  <TextField fx:id="searchTextField" onAction="#handleSearchTextFieldAction" promptText="Vyhledávání" VBox.vgrow="ALWAYS" />
+                  <HBox prefHeight="362.0" prefWidth="144.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <TreeView fx:id="treeTreeView" prefHeight="560.0" prefWidth="173.0" HBox.hgrow="ALWAYS" />
+                        <ScrollBar orientation="VERTICAL" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="456.0" prefWidth="373.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox maxHeight="50.0" minHeight="50.0" prefHeight="64.0" prefWidth="355.0" VBox.vgrow="ALWAYS" />
+                  <HBox prefHeight="396.0" prefWidth="370.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox prefHeight="530.0" prefWidth="360.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                                    <GridPane maxHeight="300.0" minHeight="200.0" prefHeight="435.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Název" />
+                                          <Label text="Kód" GridPane.rowIndex="1" />
+                                          <Label text="Výrobce" GridPane.rowIndex="2" />
+                                          <Label text="Datum nákupu" GridPane.rowIndex="3" />
+                                          <Label text="Místo nákupu" GridPane.rowIndex="4" />
+                                          <Label text="Cena" GridPane.rowIndex="5" />
+                                          <Label text="Záruka" GridPane.rowIndex="6" />
+                                          <Label text="Manuál" GridPane.rowIndex="7" />
+                                          <Label text="Spotřeba" GridPane.rowIndex="8" />
+                                          <Label text="Label" GridPane.rowIndex="9" />
+                                          <Label text="Label" GridPane.rowIndex="10" />
+                                          <Label fx:id="nameLabel" text="?" GridPane.columnIndex="1" />
+                                          <Label fx:id="codeLabel" text="?" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label fx:id="producerLabel" text="?" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label fx:id="dateOfBuyingLabel" text="?" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Label fx:id="placeOfBuyingLabel" text="?" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <Label fx:id="priceLabel" text="?" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <Label fx:id="guarantyLabel" text="?" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <Label fx:id="manualLabel" text="?" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                          <Label fx:id="consumptionLabel" text="?" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                          <Label text="?" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                          <Label text="?" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </HBox>
+                              <Label text="Technické údaje" underline="true">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="informationLabel" text="Label" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <ScrollBar orientation="VERTICAL" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="6.0" layoutY="7.0" prefHeight="593.0" prefWidth="1000.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" maxWidth="300.0" prefHeight="580.0" prefWidth="255.0" spacing="10.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="addMachineButton1" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleAddMachineButtonAction" prefHeight="25.0" prefWidth="94.0" text="Přidat stroj" VBox.vgrow="ALWAYS" />
+                  <TextField fx:id="searchTextField1" onAction="#handleSearchTextFieldAction" promptText="Vyhledávání" VBox.vgrow="ALWAYS" />
+                  <HBox prefHeight="362.0" prefWidth="144.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <TreeView prefHeight="560.0" prefWidth="173.0" HBox.hgrow="ALWAYS" />
+                        <ScrollBar orientation="VERTICAL" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="456.0" prefWidth="373.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox maxHeight="50.0" minHeight="50.0" prefHeight="64.0" prefWidth="355.0" VBox.vgrow="ALWAYS" />
+                  <HBox prefHeight="396.0" prefWidth="370.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox prefHeight="530.0" prefWidth="360.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                                    <GridPane maxHeight="300.0" minHeight="200.0" prefHeight="435.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Název" />
+                                          <Label text="Kód" GridPane.rowIndex="1" />
+                                          <Label text="Výrobce" GridPane.rowIndex="2" />
+                                          <Label text="Datum nákupu" GridPane.rowIndex="3" />
+                                          <Label text="Místo nákupu" GridPane.rowIndex="4" />
+                                          <Label text="Cena" GridPane.rowIndex="5" />
+                                          <Label text="Záruka" GridPane.rowIndex="6" />
+                                          <Label text="Manuál" GridPane.rowIndex="7" />
+                                          <Label text="Spotřeba" GridPane.rowIndex="8" />
+                                          <Label text="Label" GridPane.rowIndex="9" />
+                                          <Label text="Label" GridPane.rowIndex="10" />
+                                          <Label fx:id="nameLabel1" text="?" GridPane.columnIndex="1" />
+                                          <Label fx:id="codeLabel1" text="?" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label fx:id="producerLabel1" text="?" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label fx:id="dateOfBuyingLabel1" text="?" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Label fx:id="placeOfBuyingLabel1" text="?" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <Label fx:id="priceLabel1" text="?" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <Label fx:id="guarantyLabel1" text="?" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <Label fx:id="manualLabel1" text="?" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                          <Label fx:id="consumptionLabel1" text="?" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                          <Label text="?" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                          <Label text="?" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="30.0" minHeight="20.0" percentHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                    </GridPane>
+                                 </children>
+                              </HBox>
+                              <Label text="Technické údaje" underline="true">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="informationLabel1" text="Label" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <ScrollBar orientation="VERTICAL" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
     </children>
 </AnchorPane>

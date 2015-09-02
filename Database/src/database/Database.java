@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
@@ -23,7 +24,21 @@ public class Database extends Application {
         
         Scene scene = new Scene(root);
         
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
+            switch(e.getCode()){
+                case ESCAPE:
+                    stage.close();
+                    break;
+                    
+                default:
+                    break;
+            }
+        });
+        
         stage.setScene(scene);
+        stage.setTitle("Databáze");
+        stage.setMinHeight(400);
+        stage.setMinWidth(600);
         stage.show();
     }
 
