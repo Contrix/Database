@@ -21,6 +21,7 @@ public class List {
     }
     
     public void addMachine(Machine machine){
+        System.out.println("ddd");
         machines.add(machine);
     }
     

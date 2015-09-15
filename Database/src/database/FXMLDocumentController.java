@@ -13,7 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
@@ -25,7 +24,8 @@ import javafx.scene.control.TreeView;
  */
 public class FXMLDocumentController implements Initializable {
     
-    private ObservableList<Machine> machine = FXCollections.observableArrayList();
+    private ObservableList<Machine> machines = FXCollections.observableArrayList();
+    private Machine actualView;
     
     @FXML
     private Label nameLabel;
@@ -74,7 +74,7 @@ public class FXMLDocumentController implements Initializable {
         );
 
         treeTreeView.setRoot(root);*/
-        
+        System.out.println(machines.size());
         
         
     }
@@ -86,30 +86,70 @@ public class FXMLDocumentController implements Initializable {
         dialog.showAndWait();
     }
     
+    @FXML
+    private void handleChoiceInTreeAction() {
+        setInformation(treeTreeView.getFocusModel().getFocusedItem().toString());
+    }
+    
+    private void setInformation (String s){
+        System.out.println(s.substring(18, s.length()-2));
+        for (Machine m : machines){
+            if(m.getName().equals(s.substring(18, s.length()-2))){
+                actualView = m;
+                break;
+            }
+        }
+        
+        nameLabel.setText(actualView.getName());
+        codeLabel.setText(actualView.getCode());
+        producerLabel.setText(actualView.getProducer());
+        dateOfBuyingLabel.setText(actualView.getDateOfBuying().toString());
+        placeOfBuyingLabel.setText(actualView.getPlaceOfBuying());
+        priceLabel.setText(Integer.toString(actualView.getPrice()));
+        guarantyLabel.setText(Integer.toString(actualView.getGuaranty()));
+        manualLabel.setText(actualView.getManual());
+        consumptionLabel.setText(Integer.toString(actualView.getConsumption()));
+        informationLabel.setText(actualView.getText());
+    }
+    
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    public void initialize(URL url, ResourceBundle rb) {        
+        TreeItem<String> rootItem = new TreeItem<>("Stroje");
 
-        String[] pole = new String[]{"a", "b", "c", "d", "e", "f"};
+        TreeItem<String> saw = new TreeItem<>("Pily");
+        TreeItem<String> miller = new TreeItem<>("Frézky");
         
-        TreeItem<String> rootItem = new TreeItem<String>("Stroje");
-
-        TreeItem<String> saw = new TreeItem<String>("Pily");
-        TreeItem<String> miller = new TreeItem<String>("Frézky");
         
-        String a = new String("Aaa");
-        String b = new String("Bbb");
-        String c = new String("Ccc");
+        String[] pole = new String[]{"a", "b", "c", "d", "e", "f"};//
+        String a = "Aaa";//
+        String b = "Bbb";
+        String c = "Ccc";
         
-        for (String s : pole){
+        for (String s : pole){//
             miller.getChildren().add(new TreeItem (s));
         }
+        System.out.println("1");
+        for (Machine m : machines){
+            System.out.println("2");
+            switch (m.getID()){
+                case "Pila":
+                    saw.getChildren().add(new TreeItem(m.getName()));
+                    break;
+                case "Frézka":
+                    miller.getChildren().add(new TreeItem(m.getName()));
+                    break;
+                default:
+                    break;
+            }
+        }
 
-        saw.getChildren().addAll(new TreeItem<String>(a), new TreeItem<String>(a),new TreeItem<String>(a));
-        //miller.getChildren().addAll(new TreeItem<String>(a), new TreeItem<String>(a),new TreeItem<String>(a));
+        saw.getChildren().addAll(new TreeItem<>(a), new TreeItem<>(a),new TreeItem<>(a));//
+        
 
 
         rootItem.setExpanded(true);
+        saw.setExpanded(true);
+        miller.setExpanded(true);
         treeTreeView.setRoot(rootItem);
         rootItem.getChildren().addAll(saw, miller);
         //rootItem.getChildren().add(link2);

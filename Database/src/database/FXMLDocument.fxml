@@ -19,7 +19,7 @@
                   <TextField fx:id="searchTextField" onAction="#handleSearchTextFieldAction" promptText="Vyhledávání" VBox.vgrow="ALWAYS" />
                   <HBox prefHeight="362.0" prefWidth="144.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <TreeView fx:id="treeTreeView" prefHeight="560.0" prefWidth="173.0" HBox.hgrow="ALWAYS" />
+                        <TreeView fx:id="treeTreeView" onMouseClicked="#handleChoiceInTreeAction" prefHeight="560.0" prefWidth="173.0" HBox.hgrow="ALWAYS" />
                         <ScrollBar orientation="VERTICAL" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
