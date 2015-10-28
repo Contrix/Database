@@ -24,8 +24,9 @@ import javafx.scene.control.TreeView;
  */
 public class FXMLDocumentController implements Initializable {
     
-    private ObservableList<Machine> machines = FXCollections.observableArrayList();
+    //private ObservableList<Machine> machines = FXCollections.observableArrayList();
     private Machine actualView;
+    private List list = new List();
     
     @FXML
     private Label nameLabel;
@@ -74,7 +75,7 @@ public class FXMLDocumentController implements Initializable {
         );
 
         treeTreeView.setRoot(root);*/
-        System.out.println(machines.size());
+        System.out.println(list.getMachines().size());
         
         
     }
@@ -82,8 +83,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleAddMachineButtonAction(ActionEvent event) {
         System.out.println("Přidej stroj");
-        AddMachineDialog dialog = new AddMachineDialog(manualLabel.getScene().getWindow());
+        AddMachineDialog dialog = new AddMachineDialog(manualLabel.getScene().getWindow(), list);
         dialog.showAndWait();
+        initialize(null, null);
     }
     
     @FXML
@@ -93,7 +95,7 @@ public class FXMLDocumentController implements Initializable {
     
     private void setInformation (String s){
         System.out.println(s.substring(18, s.length()-2));
-        for (Machine m : machines){
+        for (Machine m : list.getMachines()){
             if(m.getName().equals(s.substring(18, s.length()-2))){
                 actualView = m;
                 break;
@@ -129,7 +131,7 @@ public class FXMLDocumentController implements Initializable {
             miller.getChildren().add(new TreeItem (s));
         }
         System.out.println("1");
-        for (Machine m : machines){
+        for (Machine m : list.getMachines()){
             System.out.println("2");
             switch (m.getID()){
                 case "Pila":

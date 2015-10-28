@@ -26,10 +26,11 @@ import javafx.stage.Window;
  * @author Jirka
  */
 public class AddMachineDialog extends Stage{
-    private List list = new List();
+    private List list;
     private ObservableList<Label> errorLabel = FXCollections.observableArrayList();
     
-    public AddMachineDialog(Window okno) {
+    public AddMachineDialog(Window okno, List l) {
+        this.list = l;
         setTitle("Přidat stroj");
         setWidth(300);
         setHeight(650);
