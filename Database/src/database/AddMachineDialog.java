@@ -5,20 +5,26 @@
  */
 package database;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,7 +41,7 @@ public class AddMachineDialog extends Stage{
     public AddMachineDialog(Window okno, List l) {
         this.list = l;
         setTitle("Přidat stroj");
-        setWidth(300);
+        setWidth(550);
         setHeight(650);
 
         initStyle(StageStyle.UTILITY);
@@ -46,17 +52,25 @@ public class AddMachineDialog extends Stage{
     
     
     private Scene createScene(){
-        VBox box = new VBox();
-        box.setAlignment(Pos.CENTER);
-        box.setSpacing(20);
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setPadding(new Insets(10, 10, 10, 10));
+        
+        HBox hBox = new HBox();
+        //vBox.setAlignment(Pos.CENTER);
+        //vBox.setSpacing(20);
+        
+        VBox imagesVBox = new VBox();
+        imagesVBox.setAlignment(Pos.CENTER);
+        
+        HBox imagesHBox = new HBox();
 
         // Mřížka s TextFieldy a Labely
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
-        grid.setVgap(10);
 
-        // Komponenty
+        // Komponenty mřížky
         ChoiceBox idChoiceBox = new ChoiceBox();
         idChoiceBox.setItems(FXCollections.observableArrayList("Pila", "Frézka"));
         idChoiceBox.setValue(idChoiceBox.getItems().get(0));
@@ -71,9 +85,6 @@ public class AddMachineDialog extends Stage{
         TextField guarantyTextField = new TextField();
         TextField manualTextField = new TextField();
         TextField consumptionTextField = new TextField();
-        TextField imagesTextField = new TextField();
-        TextField textTextField = new TextField();
-        TextField parametrTextField = new TextField();
 
         Label idLabel = new Label("Stroj");
         Label nameLabel = new Label("Název");
@@ -85,9 +96,6 @@ public class AddMachineDialog extends Stage{
         Label guarantyLabel = new Label("Záruka");
         Label manualLabel = new Label("Manuál");
         Label consumptionLabel = new Label("Spotřeba");
-        Label imagesLabel = new Label("Fotky");
-        Label textLabel = new Label("Poznámky");
-        Label parametrLabel = new Label("Parametry");
         
         Label idError = new Label("!");
         Label nameError = new Label("!");
@@ -100,10 +108,8 @@ public class AddMachineDialog extends Stage{
         Label manualError = new Label("!");
         Label consumptionError = new Label("!");
         Label imagesError = new Label("!");
-        Label textError = new Label("!");
-        Label parametrError = new Label("!");
         
-        errorLabels.addAll(idError, nameError, codeError, producerError, priceError, dateOfBuyingError, placeOfBuyingError, priceError, guarantyError, manualError, consumptionError, imagesError, textError, parametrError);
+        errorLabels.addAll(idError, nameError, codeError, producerError, priceError, dateOfBuyingError, placeOfBuyingError, priceError, guarantyError, manualError, consumptionError, imagesError);
         
         for (Label l :errorLabels){
             l.setStyle("-fx-text-fill: red;-fx-font-size: 20; ");
@@ -150,22 +156,42 @@ public class AddMachineDialog extends Stage{
         grid.add(consumptionTextField, 1, 9);
         grid.add(consumptionError, 2, 9);
         
-        grid.add(imagesLabel, 0, 10);
-        grid.add(imagesTextField, 1, 10);
-        grid.add(imagesError, 2, 10);
+        //Komponenty pro imagesVBox
+        ImageView imageView = new ImageView();
+        try{
+            //file:/D:/Programming/JavaFX/Database/Database/empty.png
+            /*File file = new File("empty.png");
+        Image image = new Image(file.toURI().toString());
+        System.out.println(file.toURI().toString());
+        imageView.setImage(image);*/
+            
+            
+           imageView.setImage(new Image("file:empty.png")); 
+        }
+        catch(Exception e){
+            System.out.println("ne" + e);
+        }
         
-        grid.add(textLabel, 0, 11);
-        grid.add(textTextField, 1, 11);
-        grid.add(textError, 2, 11);
+        Button choiceImagesButton = new Button("Vybrat fotky");
+        choiceImagesButton.setOnAction((ActionEvent event) -> {
+            
+        });
         
-        grid.add(parametrLabel, 0, 12);
-        grid.add(parametrTextField, 1, 12);
-        grid.add(parametrError, 2, 12);
+        TextField imagesTextField = new TextField();        
+        
+        //poznámky textArea
+        TextArea noteTextArea = new TextArea();
+        noteTextArea.setPromptText("Poznámky");
+        
+        //parametry textArea
+        TextArea parametrTextArea = new TextArea();
+        parametrTextArea.setPromptText("Parametry");
+       
         
 
-        // Tlačítko
-        Button button = new Button("Přidat stroj");
-        button.setOnAction((ActionEvent event) -> {
+        // Tlačítko přidat stroj
+        Button addButton = new Button("Přidat stroj");
+        addButton.setOnAction((ActionEvent event) -> {
             // Obsluha tlačítka
             for (Label l :errorLabels){
                 l.setVisible(false);
@@ -181,8 +207,8 @@ public class AddMachineDialog extends Stage{
                         manualTextField.getText(), 
                         Integer.parseInt(consumptionTextField.getText()), 
                         imagesTextField.getText(), 
-                        textTextField.getText(), 
-                        parametrTextField.getText(), 
+                        noteTextArea.getText(), 
+                        parametrTextArea.getText(), 
                         idChoiceBox.getValue().toString()));
             }
             catch (Exception e){
@@ -232,21 +258,6 @@ public class AddMachineDialog extends Stage{
                     consumptionError.setVisible(true);
                 }
                 try {
-                    imagesTextField.getText();
-                } catch (Exception a) {
-                    imagesError.setVisible(true);
-                }
-                try {
-                    textTextField.getText();
-                } catch (Exception a) {
-                   textError.setVisible(true);
-                }
-                try {
-                    parametrTextField.getText();
-                } catch (Exception a) {
-                    parametrError.setVisible(true);
-                }
-                try {
                     idChoiceBox.getValue().toString();
                 } catch (Exception a) {
                     idError.setVisible(true);
@@ -255,7 +266,10 @@ public class AddMachineDialog extends Stage{
             
         });           
 
-        box.getChildren().addAll(grid, button);
-        return new Scene(box);
+        vBox.getChildren().addAll(hBox, parametrTextArea, noteTextArea, addButton);
+        hBox.getChildren().addAll(grid, imagesVBox);
+        imagesVBox.getChildren().addAll(imageView, imagesHBox);
+        imagesHBox.getChildren().addAll(choiceImagesButton, imagesTextField);
+        return new Scene(vBox);
     }
 }
