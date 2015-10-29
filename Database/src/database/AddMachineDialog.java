@@ -6,6 +6,8 @@
 package database;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +15,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -26,8 +29,8 @@ import javafx.stage.Window;
  * @author Jirka
  */
 public class AddMachineDialog extends Stage{
-    private List list;
-    private ObservableList<Label> errorLabel = FXCollections.observableArrayList();
+    private final List list;
+    private final ObservableList<Label> errorLabels = FXCollections.observableArrayList();
     
     public AddMachineDialog(Window okno, List l) {
         this.list = l;
@@ -100,9 +103,9 @@ public class AddMachineDialog extends Stage{
         Label textError = new Label("!");
         Label parametrError = new Label("!");
         
-        errorLabel.addAll(idError, nameError, codeError, producerError, priceError, dateOfBuyingError, placeOfBuyingError, priceError, guarantyError, manualError, consumptionError, imagesError, textError, parametrError);
+        errorLabels.addAll(idError, nameError, codeError, producerError, priceError, dateOfBuyingError, placeOfBuyingError, priceError, guarantyError, manualError, consumptionError, imagesError, textError, parametrError);
         
-        for (Label l :errorLabel){
+        for (Label l :errorLabels){
             l.setStyle("-fx-text-fill: red;-fx-font-size: 20; ");
             l.setVisible(false);
         }
@@ -164,24 +167,23 @@ public class AddMachineDialog extends Stage{
         Button button = new Button("Přidat stroj");
         button.setOnAction((ActionEvent event) -> {
             // Obsluha tlačítka
-            for (Label l :errorLabel){
+            for (Label l :errorLabels){
                 l.setVisible(false);
             }            
             try{
                 list.addMachine(new Machine(nameTextField.getText(), 
                         codeTextField.getText(), 
                         producerTextField.getText(), 
-                        LocalDate.MIN, //datum
+                        dateOfBuyingTextField.getText(), //datum
                         placeOfBuyingTextField.getText(), 
                         Integer.parseInt(priceTextField.getText()), 
                         Integer.parseInt(guarantyTextField.getText()), 
                         manualTextField.getText(), 
                         Integer.parseInt(consumptionTextField.getText()), 
-                        imagesTextField.getText().split(", "), 
+                        imagesTextField.getText(), 
                         textTextField.getText(), 
                         parametrTextField.getText(), 
                         idChoiceBox.getValue().toString()));
-                System.out.println("3");
             }
             catch (Exception e){
                 try {
@@ -230,7 +232,7 @@ public class AddMachineDialog extends Stage{
                     consumptionError.setVisible(true);
                 }
                 try {
-                    imagesTextField.getText().split(", ");
+                    imagesTextField.getText();
                 } catch (Exception a) {
                     imagesError.setVisible(true);
                 }
@@ -250,8 +252,8 @@ public class AddMachineDialog extends Stage{
                     idError.setVisible(true);
                 }
             }
-            });
             
+        });           
 
         box.getChildren().addAll(grid, button);
         return new Scene(box);

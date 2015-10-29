@@ -15,20 +15,20 @@ public class Machine {
     private String name;
     private String code;
     private String producer;
-    private LocalDate dateOfBuying;
+    private String dateOfBuying;//LocalDate
     private String placeOfBuying;
     private int price;
     private int guaranty;
     private String manual;
     private int consumption;
     
-    private String[] images;
+    private String images;
     private String text;
     private String parametr;
     
     private String id;
     
-    public Machine(String name, String code, String producer, LocalDate dateOfBuying, String placeOfBuying, int price, int guaranty, String manual, int consumption, String[] images, String text, String parametr, String id){
+    public Machine(String name, String code, String producer, String dateOfBuying, String placeOfBuying, int price, int guaranty, String manual, int consumption, String images, String text, String parametr, String id){
         this.name = name;
         this.code = code;
         this.producer = producer;
@@ -56,7 +56,7 @@ public class Machine {
         return producer;
     }
     
-    public LocalDate getDateOfBuying(){
+    public String getDateOfBuying(){
         return dateOfBuying;
     }
     
@@ -80,7 +80,7 @@ public class Machine {
         return consumption;
     }
     
-    public String[] getImages(){
+    public String getImages(){
         return images;
     }
     

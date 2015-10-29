@@ -46,16 +46,18 @@ public class FXMLDocumentController implements Initializable {
     
     
     @FXML
-    private Label informationLabel;
-    
+    private Label informationLabel;   
+    @FXML
+    private Label notesLabel;    
     @FXML
     private Button addMachineButton;
-    
     @FXML
-    private TextField searchTextField;
-    
+    private Button removeMachineButton;   
+    @FXML
+    private TextField searchTextField;    
     @FXML
     private TreeView treeTreeView;
+
     
     
 
@@ -82,11 +84,25 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("Přidej stroj");
         AddMachineDialog dialog = new AddMachineDialog(manualLabel.getScene().getWindow(), list);
         dialog.showAndWait();
+        dialog.close();
+        initialize(null, null);
+    }
+    
+    @FXML
+    private void handleRemoveMachineButtonAction(ActionEvent event) {
+        System.out.println("Odebírám");
+        list.removeMachine(actualView);
+        
         initialize(null, null);
     }
     
     @FXML
     private void handleChoiceInTreeAction() {
+        setInformation(treeTreeView.getFocusModel().getFocusedItem().toString());
+    }
+    
+    @FXML
+    private void handleContextMenuRequest() {
         setInformation(treeTreeView.getFocusModel().getFocusedItem().toString());
     }
     
@@ -102,35 +118,30 @@ public class FXMLDocumentController implements Initializable {
         nameLabel.setText(actualView.getName());
         codeLabel.setText(actualView.getCode());
         producerLabel.setText(actualView.getProducer());
-        dateOfBuyingLabel.setText(actualView.getDateOfBuying().toString());
+        dateOfBuyingLabel.setText(actualView.getDateOfBuying());
         placeOfBuyingLabel.setText(actualView.getPlaceOfBuying());
         priceLabel.setText(Integer.toString(actualView.getPrice()));
         guarantyLabel.setText(Integer.toString(actualView.getGuaranty()));
         manualLabel.setText(actualView.getManual());
         consumptionLabel.setText(Integer.toString(actualView.getConsumption()));
-        informationLabel.setText(actualView.getText());
+        informationLabel.setText(actualView.getParametr());
+        notesLabel.setText(actualView.getText());
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {        
         TreeItem<String> rootItem = new TreeItem<>("Stroje");
-
-        TreeItem<String> saw = new TreeItem<>("Pily");
-        TreeItem<String> miller = new TreeItem<>("Frézky");
-        
-        
-        String[] pole = new String[]{"a", "b", "c", "d", "e", "f"};//
+        /*TreeItem<String> saw = new TreeItem<>("Pily");
+        TreeItem<String> miller = new TreeItem<>("Frézky");*/
+        /*String[] pole = new String[]{"a", "b", "c", "d", "e", "f"};//
         String a = "Aaa";//
         String b = "Bbb";
-        String c = "Ccc";
-        
-        for (String s : pole){//
+        String c = "Ccc";*/        
+        /*for (String s : pole){//
             miller.getChildren().add(new TreeItem (s));
-        }
-        System.out.println("1");
+        }*/
         for (Machine m : list.getMachines()){
-            System.out.println("2");
-            switch (m.getID()){
+            /*switch (m.getID()){
                 case "Pila":
                     saw.getChildren().add(new TreeItem(m.getName()));
                     break;
@@ -139,18 +150,13 @@ public class FXMLDocumentController implements Initializable {
                     break;
                 default:
                     break;
-            }
+            }*/
+            rootItem.getChildren().add(new TreeItem(m.getName()));
         }
 
-        saw.getChildren().addAll(new TreeItem<>(a), new TreeItem<>(a),new TreeItem<>(a));//
-        
-
-
+        //saw.getChildren().addAll(new TreeItem<>(a), new TreeItem<>(a),new TreeItem<>(a));//
         rootItem.setExpanded(true);
-        saw.setExpanded(true);
-        miller.setExpanded(true);
         treeTreeView.setRoot(rootItem);
-        rootItem.getChildren().addAll(saw, miller);
         //rootItem.getChildren().add(link2);
     }    
     
