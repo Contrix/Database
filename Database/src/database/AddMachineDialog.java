@@ -38,11 +38,9 @@ import javafx.stage.Window;
  * @author Jirka
  */
 public class AddMachineDialog extends Stage{
-    private List list;
     private final ObservableList<Label> errorLabels = FXCollections.observableArrayList();
     
     public Stage showDialog(Window parent, List list) {
-        this.list = list;
         
         final Stage dialog = new Stage();
         dialog.initOwner(parent);
@@ -172,15 +170,23 @@ public class AddMachineDialog extends Stage{
             System.out.println("ne" + e);
         }
         
+        TextField imagesTextField = new TextField(); 
+        
         //Tlačítko výběr fotky
         Button choiceImagesButton = new Button("Vybrat fotky");
         choiceImagesButton.setOnAction((ActionEvent event) -> {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Resource File");
-            //fileChooser.showOpenDialog(stage);
+            /*fileChooser.setTitle("Open Resource File");
+            fileChooser.showOpenDialog(dialog);*/
+            File file = fileChooser.showOpenDialog(dialog);
+                if (file != null) {
+                    imageView.setImage(new Image(file.toURI().toString(), 200, 200, false, false));
+                    imagesTextField.setText(file.toURI().toString());
+
+                }
         });
         
-        TextField imagesTextField = new TextField();        
+               
         
         //poznámky textArea
         TextArea noteTextArea = new TextArea();

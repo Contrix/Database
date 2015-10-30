@@ -15,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Window;
 
 /**
@@ -58,7 +60,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField searchTextField;    
     @FXML
-    private TreeView treeTreeView;
+    private TreeView treeTreeView;    
+    @FXML
+    private ImageView imageView;
 
     
     
@@ -126,6 +130,13 @@ public class FXMLDocumentController implements Initializable {
         consumptionLabel.setText(Integer.toString(actualView.getConsumption()));
         informationLabel.setText(actualView.getParametr());
         notesLabel.setText(actualView.getText());
+        try{
+            imageView.setImage(new Image(actualView.getImages(), 300, 300, false, false));
+        }
+        catch (Exception e){
+            imageView.setImage(new Image("file:empty.png", 300, 300, false, false));
+            System.out.println("Unknown image");
+        }
     }
     
     @Override
