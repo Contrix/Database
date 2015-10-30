@@ -9,11 +9,13 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import static java.util.Collections.list;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -26,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -35,26 +38,23 @@ import javafx.stage.Window;
  * @author Jirka
  */
 public class AddMachineDialog extends Stage{
-    private final List list;
+    private List list;
     private final ObservableList<Label> errorLabels = FXCollections.observableArrayList();
     
-    public AddMachineDialog(Window okno, List l) {
-        this.list = l;
-        setTitle("Přidat stroj");
-        setWidth(550);
-        setHeight(650);
-
-        initStyle(StageStyle.UTILITY);
-        initModality(Modality.WINDOW_MODAL);
-        initOwner(okno);
-        setScene(createScene());
-}
-    
-    
-    private Scene createScene(){
-        VBox vBox = new VBox();
-        vBox.setAlignment(Pos.CENTER);
-        vBox.setPadding(new Insets(10, 10, 10, 10));
+    public Stage showDialog(Window parent, List list) {
+        this.list = list;
+        
+        final Stage dialog = new Stage();
+        dialog.initOwner(parent);
+        dialog.initStyle(StageStyle.UTILITY);
+        dialog.setTitle("Přidat stroj");
+        dialog.setWidth(550);
+        dialog.setHeight(650);
+        
+        //layout
+        VBox layoutVBox = new VBox();
+        layoutVBox.setAlignment(Pos.CENTER);
+        layoutVBox.setPadding(new Insets(10, 10, 10, 10));
         
         HBox hBox = new HBox();
         //vBox.setAlignment(Pos.CENTER);
@@ -172,9 +172,12 @@ public class AddMachineDialog extends Stage{
             System.out.println("ne" + e);
         }
         
+        //Tlačítko výběr fotky
         Button choiceImagesButton = new Button("Vybrat fotky");
         choiceImagesButton.setOnAction((ActionEvent event) -> {
-            
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Resource File");
+            //fileChooser.showOpenDialog(stage);
         });
         
         TextField imagesTextField = new TextField();        
@@ -263,13 +266,17 @@ public class AddMachineDialog extends Stage{
                     idError.setVisible(true);
                 }
             }
-            
+            dialog.close();
         });           
 
-        vBox.getChildren().addAll(hBox, parametrTextArea, noteTextArea, addButton);
+        layoutVBox.getChildren().addAll(hBox, parametrTextArea, noteTextArea, addButton);
         hBox.getChildren().addAll(grid, imagesVBox);
         imagesVBox.getChildren().addAll(imageView, imagesHBox);
         imagesHBox.getChildren().addAll(choiceImagesButton, imagesTextField);
-        return new Scene(vBox);
+        
+        Scene scene = new Scene(layoutVBox);        
+        dialog.setScene(scene);
+        dialog.show();
+        return dialog;
     }
 }

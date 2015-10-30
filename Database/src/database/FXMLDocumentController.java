@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.stage.Window;
 
 /**
  *
@@ -24,6 +25,7 @@ public class FXMLDocumentController implements Initializable {
     
     private Machine actualView;
     private List list = new List();
+    private AddMachineDialog dialog = new AddMachineDialog();
     
     @FXML
     private Label nameLabel;
@@ -82,9 +84,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleAddMachineButtonAction(ActionEvent event) {
         System.out.println("Přidej stroj");
-        AddMachineDialog dialog = new AddMachineDialog(manualLabel.getScene().getWindow(), list);
-        dialog.showAndWait();
-        dialog.close();
+        dialog.showDialog(manualLabel.getScene().getWindow(), list);
         initialize(null, null);
     }
     
@@ -158,6 +158,5 @@ public class FXMLDocumentController implements Initializable {
         rootItem.setExpanded(true);
         treeTreeView.setRoot(rootItem);
         //rootItem.getChildren().add(link2);
-    }    
-    
+    }
 }
