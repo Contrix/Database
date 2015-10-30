@@ -31,7 +31,7 @@ public class List {
             JSONArray JsonArray = (JSONArray)parser.parse(new FileReader("soubor.json"));//(JSONArray) JsonObj.get("Jmachines");
             for (int i = 0; i < JsonArray.size(); i++){
                 JSONObject o = (JSONObject)JsonArray.get(i);
-                machines.add(new Machine(o.get("name").toString(), o.get("code").toString(), o.get("producer").toString(), o.get("dateOfBuying").toString(), o.get("placeOfBuying").toString(), Integer.parseInt(o.get("price").toString()), Integer.parseInt(o.get("guaranty").toString()), o.get("manual").toString(), Integer.parseInt(o.get("consumption").toString()), o.get("images").toString(), o.get("text").toString(), o.get("parametr").toString(), o.get("id").toString()));
+                machines.add(new Machine(o.get("name").toString(), o.get("code").toString(), o.get("producer").toString(), o.get("dateOfBuying").toString(), o.get("placeOfBuying").toString(), Integer.parseInt(o.get("price").toString()), Integer.parseInt(o.get("guaranty").toString()), o.get("manual").toString(), Integer.parseInt(o.get("consumption").toString()), o.get("images").toString(), o.get("text").toString(), o.get("parametr").toString()));
             }
         }
         catch (Exception e){
@@ -78,7 +78,6 @@ public class List {
                 o.put("images", m.getImages());
                 o.put("text", m.getText());
                 o.put("parametr", m.getParametr());
-                o.put("id", m.getID());
                 Jmachines.add(o);
         }
         

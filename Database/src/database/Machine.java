@@ -26,9 +26,9 @@ public class Machine {
     private String text;
     private String parametr;
     
-    private String id;
+    //private String id;
     
-    public Machine(String name, String code, String producer, String dateOfBuying, String placeOfBuying, int price, int guaranty, String manual, int consumption, String images, String text, String parametr, String id){
+    public Machine(String name, String code, String producer, String dateOfBuying, String placeOfBuying, int price, int guaranty, String manual, int consumption, String images, String text, String parametr){
         this.name = name;
         this.code = code;
         this.producer = producer;
@@ -41,7 +41,6 @@ public class Machine {
         this.images = images;
         this.text = text;
         this.parametr = parametr;
-        this.id = id;
     }
     
     public String getName(){
@@ -90,10 +89,6 @@ public class Machine {
     
     public String getParametr(){
         return parametr;
-    }
-    
-    public String getID(){
-        return id;
     }
     
     @Override

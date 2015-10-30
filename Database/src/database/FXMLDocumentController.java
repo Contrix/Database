@@ -27,7 +27,8 @@ public class FXMLDocumentController implements Initializable {
     
     private Machine actualView;
     private List list = new List();
-    private AddMachineDialog dialog = new AddMachineDialog();
+    private AddMachineDialog addMachineDialog = new AddMachineDialog();
+    private OpenImageDialog openImageDialog = new OpenImageDialog();
     
     @FXML
     private Label nameLabel;
@@ -88,7 +89,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleAddMachineButtonAction(ActionEvent event) {
         System.out.println("Přidej stroj");
-        dialog.showDialog(manualLabel.getScene().getWindow(), list);
+        addMachineDialog.showDialog(manualLabel.getScene().getWindow(), list);
         initialize(null, null);
     }
     
@@ -108,6 +109,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleContextMenuRequest() {
         setInformation(treeTreeView.getFocusModel().getFocusedItem().toString());
+    }
+    
+    @FXML
+    private void handleImageOnMouceClicked() {      
+        openImageDialog.showDialog(manualLabel.getScene().getWindow(), actualView.getImages());
     }
     
     private void setInformation (String s){

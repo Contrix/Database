@@ -69,10 +69,10 @@ public class AddMachineDialog extends Stage{
         grid.setHgap(10);
 
         // Komponenty mřížky
-        ChoiceBox idChoiceBox = new ChoiceBox();
+        /*ChoiceBox idChoiceBox = new ChoiceBox();
         idChoiceBox.setItems(FXCollections.observableArrayList("Pila", "Frézka"));
         idChoiceBox.setValue(idChoiceBox.getItems().get(0));
-        idChoiceBox.setPrefWidth(150);
+        idChoiceBox.setPrefWidth(150);*/
         
         TextField nameTextField = new TextField();
         TextField codeTextField = new TextField();
@@ -84,7 +84,6 @@ public class AddMachineDialog extends Stage{
         TextField manualTextField = new TextField();
         TextField consumptionTextField = new TextField();
 
-        Label idLabel = new Label("Stroj");
         Label nameLabel = new Label("Název");
         Label codeLabel = new Label("Kód");
         Label producerLabel = new Label("Výrobce");
@@ -95,7 +94,6 @@ public class AddMachineDialog extends Stage{
         Label manualLabel = new Label("Manuál");
         Label consumptionLabel = new Label("Spotřeba");
         
-        Label idError = new Label("!");
         Label nameError = new Label("!");
         Label codeError = new Label("!");
         Label producerError = new Label("!");
@@ -107,52 +105,48 @@ public class AddMachineDialog extends Stage{
         Label consumptionError = new Label("!");
         Label imagesError = new Label("!");
         
-        errorLabels.addAll(idError, nameError, codeError, producerError, priceError, dateOfBuyingError, placeOfBuyingError, priceError, guarantyError, manualError, consumptionError, imagesError);
+        errorLabels.addAll(nameError, codeError, producerError, priceError, dateOfBuyingError, placeOfBuyingError, priceError, guarantyError, manualError, consumptionError, imagesError);
         
         for (Label l :errorLabels){
             l.setStyle("-fx-text-fill: red;-fx-font-size: 20; ");
             l.setVisible(false);
         }
 
-        grid.add(idLabel, 0, 0);
-        grid.add(idChoiceBox, 1, 0);
-        grid.add(idError, 2, 0);
+        grid.add(nameLabel, 0, 0);
+        grid.add(nameTextField, 1, 0);
+        grid.add(nameError, 2, 0);
         
-        grid.add(nameLabel, 0, 1);
-        grid.add(nameTextField, 1, 1);
-        grid.add(nameError, 2, 1);
+        grid.add(codeLabel, 0, 1);
+        grid.add(codeTextField, 1, 1);
+        grid.add(codeError, 2, 1);
         
-        grid.add(codeLabel, 0, 2);
-        grid.add(codeTextField, 1, 2);
-        grid.add(codeError, 2, 2);
+        grid.add(producerLabel, 0, 2);
+        grid.add(producerTextField, 1, 2);
+        grid.add(producerError, 2, 2);
         
-        grid.add(producerLabel, 0, 3);
-        grid.add(producerTextField, 1, 3);
-        grid.add(producerError, 2, 3);
+        grid.add(dateOfBuyingLabel, 0, 3);
+        grid.add(dateOfBuyingTextField, 1, 3);
+        grid.add(dateOfBuyingError, 2, 3);
         
-        grid.add(dateOfBuyingLabel, 0, 4);
-        grid.add(dateOfBuyingTextField, 1, 4);
-        grid.add(dateOfBuyingError, 2, 4);
+        grid.add(placeOfBuyingLabel, 0, 4);
+        grid.add(placeOfBuyingTextField, 1, 4);
+        grid.add(placeOfBuyingError, 2, 4);
         
-        grid.add(placeOfBuyingLabel, 0, 5);
-        grid.add(placeOfBuyingTextField, 1, 5);
-        grid.add(placeOfBuyingError, 2, 5);
+        grid.add(priceLabel, 0, 5);
+        grid.add(priceTextField, 1, 5);
+        grid.add(priceError, 2, 5);
         
-        grid.add(priceLabel, 0, 6);
-        grid.add(priceTextField, 1, 6);
-        grid.add(priceError, 2, 6);
+        grid.add(guarantyLabel, 0, 6);
+        grid.add(guarantyTextField, 1, 6);
+        grid.add(guarantyError, 2, 6);
         
-        grid.add(guarantyLabel, 0, 7);
-        grid.add(guarantyTextField, 1, 7);
-        grid.add(guarantyError, 2, 7);
+        grid.add(manualLabel, 0, 7);
+        grid.add(manualTextField, 1, 7);
+        grid.add(manualError, 2, 7);
         
-        grid.add(manualLabel, 0, 8);
-        grid.add(manualTextField, 1, 8);
-        grid.add(manualError, 2, 8);
-        
-        grid.add(consumptionLabel, 0, 9);
-        grid.add(consumptionTextField, 1, 9);
-        grid.add(consumptionError, 2, 9);
+        grid.add(consumptionLabel, 0, 8);
+        grid.add(consumptionTextField, 1, 8);
+        grid.add(consumptionError, 2, 8);
         
         //Komponenty pro imagesVBox
         ImageView imageView = new ImageView();
@@ -217,8 +211,7 @@ public class AddMachineDialog extends Stage{
                         Integer.parseInt(consumptionTextField.getText()), 
                         imagesTextField.getText(), 
                         noteTextArea.getText(), 
-                        parametrTextArea.getText(), 
-                        idChoiceBox.getValue().toString()));
+                        parametrTextArea.getText()));//,idChoiceBox.getValue().toString()
             }
             catch (Exception e){
                 try {
@@ -265,11 +258,6 @@ public class AddMachineDialog extends Stage{
                     Integer.parseInt(consumptionTextField.getText());
                 } catch (Exception a) {
                     consumptionError.setVisible(true);
-                }
-                try {
-                    idChoiceBox.getValue().toString();
-                } catch (Exception a) {
-                    idError.setVisible(true);
                 }
             }
             dialog.close();

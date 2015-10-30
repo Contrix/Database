@@ -38,12 +38,19 @@
                      <children>
                         <VBox prefHeight="442.0" prefWidth="666.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
+                              <HBox prefHeight="250.0" prefWidth="646.0">
                                  <children>
-                                    <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                    <VBox alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                                       </children></VBox>
+                                          <ImageView fx:id="imageView" fitHeight="194.0" fitWidth="300.0" onMouseClicked="#handleImageOnMouceClicked" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </ImageView>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin></VBox>
                                     <GridPane maxHeight="300.0" minHeight="200.0" prefHeight="435.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                       <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
