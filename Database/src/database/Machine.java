@@ -12,10 +12,11 @@ import java.time.LocalDate;
  * @author Jirka
  */
 public class Machine {
+    //400
     private String name;
     private String code;
     private String producer;
-    private String dateOfBuying;//LocalDate
+    private LocalDate dateOfBuying;
     private String placeOfBuying;
     private int price;
     private int guaranty;
@@ -28,7 +29,7 @@ public class Machine {
     
     //private String id;
     
-    public Machine(String name, String code, String producer, String dateOfBuying, String placeOfBuying, int price, int guaranty, String manual, int consumption, String images, String text, String parametr){
+    public Machine(String name, String code, String producer, LocalDate dateOfBuying, String placeOfBuying, int price, int guaranty, String manual, int consumption, String images, String text, String parametr){
         this.name = name;
         this.code = code;
         this.producer = producer;
@@ -55,7 +56,7 @@ public class Machine {
         return producer;
     }
     
-    public String getDateOfBuying(){
+    public LocalDate getDateOfBuying(){
         return dateOfBuying;
     }
     

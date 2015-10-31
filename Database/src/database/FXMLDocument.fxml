@@ -23,6 +23,8 @@
                            <contextMenu>
                               <ContextMenu>
                                 <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#handleContextMenuMoveUpRequest" text="Posunout nahoru" />
+                                    <MenuItem mnemonicParsing="false" onAction="#handleContextMenuMoveDownRequest" text="Posunout dolů" />
                                   <MenuItem mnemonicParsing="false" onAction="#handleContextMenuRemoveRequest" text="Odebrat" />
                                 </items>
                               </ContextMenu>

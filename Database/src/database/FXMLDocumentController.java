@@ -27,6 +27,7 @@ import javafx.stage.Window;
  * @author Jirka
  */
 public class FXMLDocumentController implements Initializable {
+    //200
     
     private Machine actualView;
     private List list = new List();
@@ -91,7 +92,6 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void handleAddMachineButtonAction(ActionEvent event) {
-        System.out.println("Add machine");
         addMachineDialog.showDialog(manualLabel.getScene().getWindow(), list);
         initialize(null, null);
     }
@@ -119,8 +119,37 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    private void handleImageOnMouceClicked() {      
-        openImageDialog.showDialog(manualLabel.getScene().getWindow(), actualView.getImages());
+    private void handleContextMenuMoveUpRequest() {
+        for (Machine m : list.getMachines()){
+            if(m.getName().equals(treeTreeView.getFocusModel().getFocusedItem().toString().substring(18, treeTreeView.getFocusModel().getFocusedItem().toString().length()-2))){
+                //System.out.println("Deleting " + m.toString());
+                list.moveUp(m);
+                break;
+            }
+        }
+        initialize(null, null);
+    }
+    
+    @FXML
+    private void handleContextMenuMoveDownRequest() {
+        for (Machine m : list.getMachines()){
+            if(m.getName().equals(treeTreeView.getFocusModel().getFocusedItem().toString().substring(18, treeTreeView.getFocusModel().getFocusedItem().toString().length()-2))){
+                //System.out.println("Deleting " + m.toString());
+                list.moveDown(m);
+                break;
+            }
+        }
+        initialize(null, null);
+    }
+    
+    @FXML
+    private void handleImageOnMouceClicked() {
+        try{
+            openImageDialog.showDialog(manualLabel.getScene().getWindow(), actualView.getImages());
+        }
+        catch (Exception e){
+            System.out.println("201 " + "Unknown image");
+        }
     }
     
     private void setInformation (String s){
@@ -131,24 +160,28 @@ public class FXMLDocumentController implements Initializable {
                 break;
             }
         }
-        
-        nameLabel.setText(actualView.getName());
-        codeLabel.setText(actualView.getCode());
-        producerLabel.setText(actualView.getProducer());
-        dateOfBuyingLabel.setText(actualView.getDateOfBuying());
-        placeOfBuyingLabel.setText(actualView.getPlaceOfBuying());
-        priceLabel.setText(Integer.toString(actualView.getPrice()));
-        guarantyLabel.setText(Integer.toString(actualView.getGuaranty()));
-        manualLabel.setText(actualView.getManual());
-        consumptionLabel.setText(Integer.toString(actualView.getConsumption()));
-        informationLabel.setText(actualView.getParametr());
-        notesLabel.setText(actualView.getText());
         try{
-            imageView.setImage(new Image(actualView.getImages()));
+            nameLabel.setText(actualView.getName());
+            codeLabel.setText(actualView.getCode());
+            producerLabel.setText(actualView.getProducer());
+            dateOfBuyingLabel.setText(actualView.getDateOfBuying().toString());
+            placeOfBuyingLabel.setText(actualView.getPlaceOfBuying());
+            priceLabel.setText(Integer.toString(actualView.getPrice()));
+            guarantyLabel.setText(Integer.toString(actualView.getGuaranty()));
+            manualLabel.setText(actualView.getManual());
+            consumptionLabel.setText(Integer.toString(actualView.getConsumption()));
+            informationLabel.setText(actualView.getParametr());
+            notesLabel.setText(actualView.getText());
+        }
+        catch(Exception e){
+            System.out.println("202 " + "Unknown machine");
+        }
+        try{
+            imageView.setImage(new Image("file:" + actualView.getImages()));
         }
         catch (Exception e){
             imageView.setImage(new Image("file:Data/empty.png", 300, 300, false, false));
-            System.err.println("Unknown image");
+            System.out.println("203 " + "Unknown image");
         }
     }
     

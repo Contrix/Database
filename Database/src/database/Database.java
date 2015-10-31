@@ -21,6 +21,7 @@ public class Database extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        //100
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         File backGroundImage = new File("Data/bg.png");
@@ -53,6 +54,5 @@ public class Database extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }
-    
+    }    
 }

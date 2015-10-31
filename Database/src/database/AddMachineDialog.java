@@ -13,24 +13,34 @@ import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.time.LocalDate;
+import java.time.chrono.Chronology;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Calendar;
 import static java.util.Collections.list;
+import java.util.Locale;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -44,6 +54,7 @@ import javafx.stage.Window;
  * @author Jirka
  */
 public class AddMachineDialog extends Stage{
+    //500
     private final ObservableList<Label> errorLabels = FXCollections.observableArrayList();
     
     public Stage showDialog(Window parent, List list) {
@@ -52,22 +63,25 @@ public class AddMachineDialog extends Stage{
         dialog.initOwner(parent);
         dialog.initStyle(StageStyle.UTILITY);
         dialog.setTitle("Přidat stroj");
-        dialog.setWidth(550);
+        dialog.setWidth(600);
         dialog.setHeight(650);
         
         //layout
         VBox layoutVBox = new VBox();
         layoutVBox.setAlignment(Pos.CENTER);
         layoutVBox.setPadding(new Insets(10, 10, 10, 10));
+        layoutVBox.setSpacing(10);
         
         HBox hBox = new HBox();
         //vBox.setAlignment(Pos.CENTER);
-        //vBox.setSpacing(20);
+        hBox.setSpacing(20);
         
         VBox imagesVBox = new VBox();
+        imagesVBox.setSpacing(20);
         imagesVBox.setAlignment(Pos.CENTER);
         
         HBox imagesHBox = new HBox();
+        imagesHBox.setSpacing(5);
 
         // Mřížka s TextFieldy a Labely
         GridPane grid = new GridPane();
@@ -83,7 +97,7 @@ public class AddMachineDialog extends Stage{
         TextField nameTextField = new TextField();
         TextField codeTextField = new TextField();
         TextField producerTextField = new TextField();
-        TextField dateOfBuyingTextField = new TextField();
+        //TextField dateOfBuyingTextField = new TextField();
         TextField placeOfBuyingTextField = new TextField();
         TextField priceTextField = new TextField();
         TextField guarantyTextField = new TextField();
@@ -111,6 +125,10 @@ public class AddMachineDialog extends Stage{
         Label consumptionError = new Label("!");
         Label imagesError = new Label("!");
         
+        DatePicker datePicker = new DatePicker();
+        datePicker.setPromptText("dd.MM.yyyy");
+        //dataPicker.setEditable(false);
+        
         errorLabels.addAll(nameError, codeError, producerError, priceError, dateOfBuyingError, placeOfBuyingError, priceError, guarantyError, manualError, consumptionError, imagesError);
         
         for (Label l :errorLabels){
@@ -131,7 +149,7 @@ public class AddMachineDialog extends Stage{
         grid.add(producerError, 2, 2);
         
         grid.add(dateOfBuyingLabel, 0, 3);
-        grid.add(dateOfBuyingTextField, 1, 3);
+        grid.add(datePicker, 1, 3);
         grid.add(dateOfBuyingError, 2, 3);
         
         grid.add(placeOfBuyingLabel, 0, 4);
@@ -154,40 +172,43 @@ public class AddMachineDialog extends Stage{
         grid.add(consumptionTextField, 1, 8);
         grid.add(consumptionError, 2, 8);
         
-        //Komponenty pro imagesVBox
-        ImageView imageView = new ImageView();
-        try{
-            //file:/D:/Programming/JavaFX/Database/Database/empty.png
-            /*File file = new File("empty.png");
-        Image image = new Image(file.toURI().toString());
-        System.out.println(file.toURI().toString());
-        imageView.setImage(image);*/
-            
-            
-           imageView.setImage(new Image("file:Data/empty.png")); 
-        }
-        catch(Exception e){
-            System.out.println("ne" + e);
-        }
-        
-        TextField imagesTextField = new TextField(); 
-        
-        //Tlačítko výběr fotky
-        Button choiceImagesButton = new Button("Vybrat fotky");
-        choiceImagesButton.setOnAction((ActionEvent event) -> {
+        manualTextField.setOnMousePressed((MouseEvent event) -> {
             FileChooser fileChooser = new FileChooser();
-            /*fileChooser.setTitle("Open Resource File");
-            fileChooser.showOpenDialog(dialog);*/
             File file = fileChooser.showOpenDialog(dialog);
                 if (file != null) {
-                    imageView.setImage(new Image(file.toURI().toString(), 200, 200, false, false));
-                    imagesTextField.setText(file.toURI().toString());
+                    manualTextField.setText(file.getPath());
 
                 }
         });
         
-               
+        /*dateOfBuyingTextField.setOnMouseClicked((MouseEvent)->{
+            DatePicker datePicker = new DatePicker();
+            datePicker.showWeekNumbersProperty();
+        });*/
         
+        //Komponenty pro imagesVBox
+        ImageView imageView = new ImageView();
+        try{
+            imageView.setImage(new Image("file:Data/empty.png")); 
+        }
+        catch(Exception e){
+            System.out.println("501" + e);
+        }
+        
+        TextField imageTextField = new TextField(); 
+        
+        //Tlačítko výběr fotky
+        Button choiceImagesButton = new Button("Vybrat fotku");
+        choiceImagesButton.setOnAction((ActionEvent event) -> {
+            FileChooser fileChooser = new FileChooser();
+            File file = fileChooser.showOpenDialog(dialog);
+                if (file != null) {
+                    imageView.setImage(new Image(file.toURI().toString(), 200, 200, false, false));
+                    imageTextField.setText(file.getPath());
+
+                }
+        });
+
         //poznámky textArea
         TextArea noteTextArea = new TextArea();
         noteTextArea.setPromptText("Poznámky");
@@ -195,95 +216,165 @@ public class AddMachineDialog extends Stage{
         //parametry textArea
         TextArea parametrTextArea = new TextArea();
         parametrTextArea.setPromptText("Parametry");
-       
         
-
         // Tlačítko přidat stroj
         Button addButton = new Button("Přidat stroj");
         addButton.setOnAction((ActionEvent event) -> {
-            // Obsluha tlačítka
-            for (Label l :errorLabels){
-                l.setVisible(false);
-            }
             try{
-                Files.copy(Paths.get(imagesTextField.getText().substring(6)),Paths.get(("Data/img/") + nameTextField.getText() + imagesTextField.getText().substring(imagesTextField.getText().length()-4, imagesTextField.getText().length())));
-                imagesTextField.setText("file:Data/img/" + nameTextField.getText() + imagesTextField.getText().substring(imagesTextField.getText().length()-4, imagesTextField.getText().length()));
+                Files.copy(Paths.get(imageTextField.getText()),
+                        Paths.get(("Data/img/") + nameTextField.getText() + imageTextField.getText().substring(imageTextField.getText().length()-4, imageTextField.getText().length())));
+                imageTextField.setText("Data/img/" + nameTextField.getText() + imageTextField.getText().substring(imageTextField.getText().length()-4, imageTextField.getText().length()));
             }
             catch (Exception e){
-                System.out.println(e);
+                System.out.println("502 " + "Copy image failed" + e);
             }
+            
             try{
-                list.addMachine(new Machine(nameTextField.getText(), 
-                        codeTextField.getText(), 
-                        producerTextField.getText(), 
-                        dateOfBuyingTextField.getText(), //datum
-                        placeOfBuyingTextField.getText(), 
-                        Integer.parseInt(priceTextField.getText()), 
-                        Integer.parseInt(guarantyTextField.getText()), 
-                        manualTextField.getText(), 
-                        Integer.parseInt(consumptionTextField.getText()), 
-                        imagesTextField.getText(), 
-                        noteTextArea.getText(), 
-                        parametrTextArea.getText()));//,idChoiceBox.getValue().toString()
+                Files.copy(Paths.get(manualTextField.getText()),
+                        Paths.get(("Data/manuals/") + nameTextField.getText() + manualTextField.getText().substring(manualTextField.getText().length()-4, manualTextField.getText().length())));
+                manualTextField.setText("Data/manuals/" + nameTextField.getText() + manualTextField.getText().substring(manualTextField.getText().length()-4, manualTextField.getText().length()));
             }
             catch (Exception e){
-                try {
-                    nameTextField.getText();
-                } catch (Exception a) {
-                    nameError.setVisible(true);
-                }
-                try {
-                    codeTextField.getText();
-                } catch (Exception a) {
-                    codeError.setVisible(true);
-                }
-                try {
-                    producerTextField.getText();
-                } catch (Exception a) {
-                    producerError.setVisible(true);
-                }
-                /*try {
-                    Integer.parseInt(priceTextField.getText()); datum
-                } catch (Exception a) {
-                    priceError.setVisible(true);
-                }*/
-                try {
-                    placeOfBuyingTextField.getText();
-                } catch (Exception a) {
-                    placeOfBuyingError.setVisible(true);
-                }
-                try {
-                    Integer.parseInt(priceTextField.getText());
-                } catch (Exception a) {
-                    priceError.setVisible(true);
-                }
-                try {
-                    Integer.parseInt(guarantyTextField.getText());
-                } catch (Exception a) {
-                    guarantyError.setVisible(true);
-                }
-                try {
-                    manualTextField.getText();
-                } catch (Exception a) {
-                    manualError.setVisible(true);
-                }
-                try {
-                    Integer.parseInt(consumptionTextField.getText());
-                } catch (Exception a) {
-                    consumptionError.setVisible(true);
-                }
+                System.out.println("503 " + "Copy manual failed" + e);
             }
+            
+            list.addMachine(new Machine(nameTextField.getText(), 
+                    codeTextField.getText(), 
+                    producerTextField.getText(), 
+                    datePicker.getValue(),
+                    placeOfBuyingTextField.getText(), 
+                    Integer.parseInt(priceTextField.getText()), 
+                    Integer.parseInt(guarantyTextField.getText()), 
+                    manualTextField.getText(), 
+                    Integer.parseInt(consumptionTextField.getText()), 
+                    imageTextField.getText(), 
+                    noteTextArea.getText(), 
+                    parametrTextArea.getText()));//,idChoiceBox.getValue().toString()
+            
             dialog.close();
-        });           
+        });
+        
+        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (nameTextField.getText().length() <= 4){
+                nameError.setVisible(true);
+                checkErrors(addButton);
+            }
+            else{
+                nameError.setVisible(false);
+                checkErrors(addButton);
+            }
+        });
+        
+        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+            try{
+                LocalDate.parse(datePicker.getValue().toString());
+                dateOfBuyingError.setVisible(false);
+                checkErrors(addButton);
+            }
+            catch (Exception e){
+                dateOfBuyingError.setVisible(true);
+                checkErrors(addButton);
+            }
+        });
+
+        datePicker.addEventFilter(KeyEvent.KEY_TYPED, (KeyEvent event) -> {
+            try{
+                LocalDate.parse(datePicker.getValue().toString());
+                dateOfBuyingError.setVisible(false);
+                checkErrors(addButton);
+            }
+            catch (Exception e){
+                dateOfBuyingError.setVisible(true);
+                checkErrors(addButton);
+            }
+        });
+        
+        
+        priceTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try{
+                Integer.parseInt(newValue);
+                priceError.setVisible(false);
+                checkErrors(addButton);
+            }
+            catch (Exception e){
+                priceError.setVisible(true);
+                checkErrors(addButton);
+            }
+        });
+        
+        guarantyTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try{
+                Integer.parseInt(newValue);
+                guarantyError.setVisible(false);
+                checkErrors(addButton);
+            }
+            catch (Exception e){
+                guarantyError.setVisible(true);       
+                checkErrors(addButton);
+            }
+        });
+        
+        manualTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (Files.exists(Paths.get(newValue))){
+                manualError.setVisible(false);
+                checkErrors(addButton);
+            }
+            else{
+                manualError.setVisible(true);
+                checkErrors(addButton);
+            }
+        });
+        
+        consumptionTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try{
+                Integer.parseInt(newValue);
+                consumptionError.setVisible(false);
+                checkErrors(addButton);
+            }
+            catch (Exception e){
+                consumptionError.setVisible(true);
+                checkErrors(addButton);
+            }
+        });
+        
+        imageTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (Files.exists(Paths.get(newValue))){
+                imagesError.setVisible(false);
+                checkErrors(addButton);
+            }
+            else{
+                imagesError.setVisible(true);
+                checkErrors(addButton);
+            }
+        });
+        
+        if (errorLabels.stream().allMatch(l -> !l.isVisible())){
+            addButton.setDisable(false);
+            checkErrors(addButton);
+        }
+        else{
+            addButton.setDisable(true);
+            checkErrors(addButton);
+        }
+        
 
         layoutVBox.getChildren().addAll(hBox, parametrTextArea, noteTextArea, addButton);
         hBox.getChildren().addAll(grid, imagesVBox);
         imagesVBox.getChildren().addAll(imageView, imagesHBox);
-        imagesHBox.getChildren().addAll(choiceImagesButton, imagesTextField);
+        imagesHBox.getChildren().addAll(choiceImagesButton, imageTextField, imagesError);
         
         Scene scene = new Scene(layoutVBox);        
         dialog.setScene(scene);
         dialog.show();
         return dialog;
+    }
+    
+    private void checkErrors(Button button){
+        if (errorLabels.stream().allMatch(l -> !l.isVisible())){
+            button.setDisable(false);
+        }
+        else{
+            button.setDisable(true);
+        }
     }
 }

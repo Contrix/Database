@@ -21,17 +21,21 @@ import javafx.stage.Window;
  * @author Jirka
  */
 public class OpenImageDialog extends Stage{
+    //600
     
-    public Stage showDialog(Window parent, String URI) {
+    public Stage showDialog(Window parent, String path) {
         
         final Stage dialog = new Stage();
-        Image img = new Image(URI);
+        Image img = new Image("file:" + path);
         ImageView imageView = new ImageView(img);
         dialog.initOwner(parent);
         dialog.initStyle(StageStyle.UTILITY);
-        //dialog.setTitle("Přidat stroj");
         dialog.setWidth(img.getWidth());
         dialog.setHeight(img.getHeight());
+        
+        imageView.setOnMouseClicked((MouseEvent)->{
+            dialog.close();
+        });
         
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.getChildren().add(imageView);
