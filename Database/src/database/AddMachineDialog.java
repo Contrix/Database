@@ -6,6 +6,12 @@
 package database;
 
 import java.io.File;
+import java.nio.file.Files;
+import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -158,7 +164,7 @@ public class AddMachineDialog extends Stage{
         imageView.setImage(image);*/
             
             
-           imageView.setImage(new Image("file:empty.png")); 
+           imageView.setImage(new Image("file:Data/empty.png")); 
         }
         catch(Exception e){
             System.out.println("ne" + e);
@@ -198,7 +204,14 @@ public class AddMachineDialog extends Stage{
             // Obsluha tlačítka
             for (Label l :errorLabels){
                 l.setVisible(false);
-            }            
+            }
+            try{
+                Files.copy(Paths.get(imagesTextField.getText().substring(6)),Paths.get(("Data/img/") + nameTextField.getText() + imagesTextField.getText().substring(imagesTextField.getText().length()-4, imagesTextField.getText().length())));
+                imagesTextField.setText("file:Data/img/" + nameTextField.getText() + imagesTextField.getText().substring(imagesTextField.getText().length()-4, imagesTextField.getText().length()));
+            }
+            catch (Exception e){
+                System.out.println(e);
+            }
             try{
                 list.addMachine(new Machine(nameTextField.getText(), 
                         codeTextField.getText(), 

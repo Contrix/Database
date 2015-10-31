@@ -11,12 +11,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.HBox;
 import javafx.stage.Window;
 
 /**
@@ -57,11 +60,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button addMachineButton;
     @FXML
-    private Button removeMachineButton;   
+    private Button goHomeButton;   
     @FXML
     private TextField searchTextField;    
     @FXML
-    private TreeView treeTreeView;    
+    private TreeView treeTreeView;
     @FXML
     private ImageView imageView;
 
@@ -88,17 +91,14 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void handleAddMachineButtonAction(ActionEvent event) {
-        System.out.println("Přidej stroj");
+        System.out.println("Add machine");
         addMachineDialog.showDialog(manualLabel.getScene().getWindow(), list);
         initialize(null, null);
     }
     
     @FXML
-    private void handleRemoveMachineButtonAction(ActionEvent event) {
-        System.out.println("Odebírám");
-        list.removeMachine(actualView);
-        
-        initialize(null, null);
+    private void handleGoHomeButtonAction(ActionEvent event) {
+        System.out.println("Go home");
     }
     
     @FXML
@@ -107,8 +107,15 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    private void handleContextMenuRequest() {
-        setInformation(treeTreeView.getFocusModel().getFocusedItem().toString());
+    private void handleContextMenuRemoveRequest() {
+        for (Machine m : list.getMachines()){
+            if(m.getName().equals(treeTreeView.getFocusModel().getFocusedItem().toString().substring(18, treeTreeView.getFocusModel().getFocusedItem().toString().length()-2))){
+                System.out.println("Deleting " + m.toString());
+                list.removeMachine(m);
+                break;
+            }
+        }
+        initialize(null, null);
     }
     
     @FXML
@@ -117,7 +124,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     private void setInformation (String s){
-        System.out.println(s.substring(18, s.length()-2));
+        //System.out.println(s.substring(18, s.length()-2));
         for (Machine m : list.getMachines()){
             if(m.getName().equals(s.substring(18, s.length()-2))){
                 actualView = m;
@@ -137,16 +144,17 @@ public class FXMLDocumentController implements Initializable {
         informationLabel.setText(actualView.getParametr());
         notesLabel.setText(actualView.getText());
         try{
-            imageView.setImage(new Image(actualView.getImages(), 300, 300, false, false));
+            imageView.setImage(new Image(actualView.getImages()));
         }
         catch (Exception e){
-            imageView.setImage(new Image("file:empty.png", 300, 300, false, false));
-            System.out.println("Unknown image");
+            imageView.setImage(new Image("file:Data/empty.png", 300, 300, false, false));
+            System.err.println("Unknown image");
         }
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {        
+        
         TreeItem<String> rootItem = new TreeItem<>("Stroje");
         /*TreeItem<String> saw = new TreeItem<>("Pily");
         TreeItem<String> miller = new TreeItem<>("Frézky");*/

@@ -28,7 +28,7 @@ public class List {
     public List(){
         try{
             //JSONObject JsonObj = (JSONObject) parser.parse(new FileReader("soubor.json"));
-            JSONArray JsonArray = (JSONArray)parser.parse(new FileReader("soubor.json"));//(JSONArray) JsonObj.get("Jmachines");
+            JSONArray JsonArray = (JSONArray)parser.parse(new FileReader("Data/soubor.json"));//(JSONArray) JsonObj.get("Jmachines");
             for (int i = 0; i < JsonArray.size(); i++){
                 JSONObject o = (JSONObject)JsonArray.get(i);
                 machines.add(new Machine(o.get("name").toString(), o.get("code").toString(), o.get("producer").toString(), o.get("dateOfBuying").toString(), o.get("placeOfBuying").toString(), Integer.parseInt(o.get("price").toString()), Integer.parseInt(o.get("guaranty").toString()), o.get("manual").toString(), Integer.parseInt(o.get("consumption").toString()), o.get("images").toString(), o.get("text").toString(), o.get("parametr").toString()));
@@ -82,7 +82,7 @@ public class List {
         }
         
         
-        try (FileWriter file = new FileWriter("soubor.json")) {
+        try (FileWriter file = new FileWriter("Data/soubor.json")) {
             //Jmachines.addAll(machines);
             //file.write(o.toJSONString());
             file.write(Jmachines.toJSONString());

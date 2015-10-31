@@ -5,6 +5,7 @@
  */
 package database;
 
+import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +22,11 @@ public class Database extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        
+        File backGroundImage = new File("Data/bg.png");
+        root.setStyle("-fx-background-image: url('" + backGroundImage.toURI().toURL().toString() + "');"
+                + "-fx-background-position: center center;"
+                + "-fx-background-size: 2000 1200"); 
         
         Scene scene = new Scene(root);
         
